@@ -6,7 +6,7 @@ import {
     PoweroffOutlined
         } from '@ant-design/icons';
 
-import Logo from '../../../assets/imgs/png/logo-white.png';
+import Logo from '../../../assets/imgs/png/wtlogo.png';
 import './MenuTop.scss';
 
 export default function MenuTop(props) {
@@ -21,7 +21,7 @@ export default function MenuTop(props) {
                     alt=""
                     className="menu-top__left-logo" 
                 />
-                <Button type="link" onClick={() => setMenuCollapsed(!menuCollapsed)}>
+                <Button type="link" onClick={() => setMenuCollapsed(!menuCollapsed)} style={{ marginLeft: menuCollapsed ? "0px" : "100px" }}>
                     { menuCollapsed ? 
                         <DoubleRightOutlined /> :
                         <DoubleLeftOutlined />
