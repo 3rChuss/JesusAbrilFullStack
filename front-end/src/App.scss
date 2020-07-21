@@ -1,5 +1,10 @@
 @import './scss/var';
 
-.App {
-    color: $light-accent;;
+.success {
+    border: 1px solid $success;
+    background-color: $bg-success;
+}
+.error {
+    border: 1px solid $error;
+    background-color: $bg-error;
 }

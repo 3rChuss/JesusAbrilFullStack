@@ -15,9 +15,9 @@ const   mongoose    = require('mongoose'),
                 console.log('Database Connected');
 
                 app.listen(port, () => {
-                    console.log('##########');
-                    console.log('#### API_REST ####');
-                    console.log('##########');
+                    console.log('####################');
+                    console.log('##### API_REST #####');
+                    console.log('####################');
                     console.log(`api/${API_VERSION}`);
                 })
             }

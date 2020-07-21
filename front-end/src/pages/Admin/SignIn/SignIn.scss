@@ -1,0 +1,93 @@
+@import '../../../scss/index.scss';
+
+.sign-in {
+    background-image: url('../../../assets/imgs/png/background-v1.jpg');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+
+    &__content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-height: 100vh;
+
+        &-logo {
+            padding: 60px 20px;
+            img {
+                width: 100%;
+            }
+        }
+        &-tabs {
+            background-color: $bg-white;
+            .ant-tabs {
+                width: 90vh;
+
+                @media (min-width: $media-up-lg) {
+                    width: auto;
+                }
+                @media (max-width: $media-down-lg) {
+                    width: 100%;
+                }
+            
+                &-nav {
+                    width: 100%;
+                    &-wrap {
+                        justify-content: space-evenly;
+                    }
+                    &-list {
+                        width: 100%;
+                    }
+                }
+            }
+            .ant-tabs-tab {
+                width: 50px;
+                height: 60px;
+                text-align: center !important;
+                font-size: 0em + 19px / $defaultFontSize;
+                border-top: 4px solid $border-dark !important;
+                border-radius: 0px !important;
+                margin: 0 !important;
+                justify-content: center !important;
+
+                @media (min-width: $media-up-lg) {
+                    width: 100%;
+                    min-width: 200px;
+                    font-size: 0em + 23px / $defaultFontSize;
+                }
+
+                @media (max-width: $media-down-lg) {
+                    width: 100%;
+                }
+
+                &:hover {
+                    color: $dark-shades;
+                }
+                &::before {
+                    content: none;
+                }
+
+                span {
+                    height: 100%;
+                    display: flex;
+                }
+            }
+
+            .ant-tabs-tab-active {
+                border-top: 4px solid $font-accent !important;
+                border-radius: 0 !important;
+                border-right: 0 !important;
+                border-left: 0 !important;
+
+                span {
+                    color: $font-accent;
+                }
+            }
+
+            .ant-tabs-content-holder {
+                padding: 0 16px 16px 16px;
+                text-align: center;
+            }
+        }
+    }
+}
