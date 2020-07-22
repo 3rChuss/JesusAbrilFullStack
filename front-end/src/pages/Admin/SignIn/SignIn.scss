@@ -20,18 +20,15 @@
         }
         &-tabs {
             background-color: $bg-white;
+            @media (max-width: $media-up-sm) {
+                    width: 100%;
+            }
+            @media (min-width: $media-up-md) {
+                width: 500px;
+            }
             .ant-tabs {
-                width: 90vh;
-
-                @media (min-width: $media-up-lg) {
-                    width: auto;
-                }
-                @media (max-width: $media-down-lg) {
-                    width: 100%;
-                }
-            
+                width: 100%;
                 &-nav {
-                    width: 100%;
                     &-wrap {
                         justify-content: space-evenly;
                     }
@@ -41,7 +38,7 @@
                 }
             }
             .ant-tabs-tab {
-                width: 50px;
+                width: 100%;
                 height: 60px;
                 text-align: center !important;
                 font-size: 0em + 19px / $defaultFontSize;
@@ -49,15 +46,9 @@
                 border-radius: 0px !important;
                 margin: 0 !important;
                 justify-content: center !important;
-
+                
                 @media (min-width: $media-up-lg) {
-                    width: 100%;
-                    min-width: 200px;
                     font-size: 0em + 23px / $defaultFontSize;
-                }
-
-                @media (max-width: $media-down-lg) {
-                    width: 100%;
                 }
 
                 &:hover {
@@ -66,19 +57,10 @@
                 &::before {
                     content: none;
                 }
-
-                span {
-                    height: 100%;
-                    display: flex;
-                }
             }
 
             .ant-tabs-tab-active {
                 border-top: 4px solid $font-accent !important;
-                border-radius: 0 !important;
-                border-right: 0 !important;
-                border-left: 0 !important;
-
                 span {
                     color: $font-accent;
                 }

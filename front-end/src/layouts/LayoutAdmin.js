@@ -8,6 +8,8 @@ import MenuTop from '../components/Admin/MenuTop/MenuTop';
 import SideMenu from '../components/Admin/SideMenu';
 import AdminSignIn from '../pages/Admin/SignIn';
 
+import { getAccessToken, getRefreshToken } from '../api/auth';
+
 import './LayoutAdmin.scss';
 
 export default function LayoutAdmin (props) {

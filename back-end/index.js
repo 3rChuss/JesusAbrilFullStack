@@ -8,7 +8,7 @@ const   mongoose    = require('mongoose'),
 // ....
     mongoose.set('useFindAndModify', false);
     mongoose.connect('mongodb+srv://portfolio:qifFTJ4a05hogjRy@cluster0-v6xpx.mongodb.net/portfolio?retryWrites=true&w=majority', 
-        {useNewUrlParser: true, useUnifiedTopology: true}, (err, res) => {
+        {useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true}, (err, res) => {
             if (err) {
                 throw err;
             } else {

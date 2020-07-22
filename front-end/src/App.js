@@ -8,7 +8,7 @@ import routes from './config/routes';
 
 //Components
 // ....
-import AdminHome from './pages/Admin';
+//import AdminHome from './pages/Admin';
 
 
 function App() {

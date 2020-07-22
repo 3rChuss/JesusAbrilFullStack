@@ -1,4 +1,4 @@
-import React, { useState, isValidElement } from 'react';
+import React, { useState } from 'react';
 import { Form, Input, Button, Checkbox, notification} from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { minLengthValidation, emailValidation } from '../../../utils/formValidation';
@@ -50,8 +50,6 @@ export default function RegisterForm() {
     }
 
     const register = async e => {
-        const { email, password, repeatPassword, privacyPolicy } = formValid;
-
         if ( !inputs.email ||
              !inputs.password ||
              !inputs.repeatPassword ||

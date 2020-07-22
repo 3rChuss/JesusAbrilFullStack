@@ -1,13 +1,16 @@
-const   bcrypt  = require('bcrypt-nodejs'),
-        jwt     = require('jwt-simple');
+const
+    bcrypt = require('bcrypt-nodejs'),
+    jwt = require('../services/jwt');
 
 const   User    = require('../models/user');
 
 function signUp(req, res) {
 
-    const {email, password, repeatPassword } = req.body;
+    const {name, lastName, email, password, repeatPassword } = req.body;
 
     const user = new User({
+        name: name,
+        lastName: lastName,
         email: email.toLowerCase(),
         password: password,
         role: "admin",
@@ -45,6 +48,39 @@ function signUp(req, res) {
 
 };
 
+function signIn(req, res) {
+    const email = req.body.email;
+    const password = req.body.password;
+
+    User.findOne({ email }, (err, userStored) => {
+        if (err) {
+            res.status(500).send({ message: 'Server error: controller/user.js:57 + ' + err });
+        } else {
+            if (!userStored) {
+                res.status(404).send({ message: 'User not found!' });
+            } else {
+                bcrypt.compare(password, userStored.password, (err, check) => {
+                    if (err) {
+                        res.status(500).send({ message: 'Server error: controller/user.js:64 + ' + err });
+                    } else if (!check) {
+                        res.status(404).send({ message: 'Incorrect password' });
+                    } else {
+                        if (!userStored.active) {
+                            res.status(200).send({ message: 'User inactive' });
+                        } else {
+                            res.status(200).send({
+                                accessToken: jwt.createAccessToken(userStored),
+                                refreshToken: jwt.refreshToken(userStored)
+                            });
+                        }
+                    }
+                })
+            }
+        }
+    })
+};
+
 module.exports = {
-    signUp
+    signUp,
+    signIn
 }

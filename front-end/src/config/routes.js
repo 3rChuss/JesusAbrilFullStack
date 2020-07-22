@@ -5,8 +5,6 @@ import AdminHome from '../pages/Admin';
 import AdminSingIn from '../pages/Admin/SignIn';
 import LayoutBasic from '../layouts/LayoutBasic';
 
-import { Layout } from 'antd';
-
 // Pages
 // ....
 import Home from '../pages/Home';
