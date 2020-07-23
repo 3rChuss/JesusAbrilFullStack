@@ -5,8 +5,7 @@
 
     button {
         color: $font-light;
-        position: absolute;
-        top: calc(100% / 4);
+        position: relative;
 
         &:hover {
             color: $light-accent;
@@ -26,7 +25,7 @@
 
     &__right {
         position: absolute;
-        right: 0;
+        right: 0px;
     }
     
 }

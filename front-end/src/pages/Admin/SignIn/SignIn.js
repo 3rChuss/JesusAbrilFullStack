@@ -1,6 +1,7 @@
 import React from 'react';
 import { Layout, Tabs } from 'antd';
 import { Redirect } from 'react-router-dom';
+import { getAccessTokenApi } from '../../../api/auth';
 
 // ASSETS
 // ....
@@ -16,6 +17,9 @@ export default function SignIn() {
     const { Content } = Layout;
     const { TabPane } = Tabs;
 
+    if (getAccessTokenApi()) {
+        return <Redirect to="/admin" />;
+    }
     return (
         <Layout className="sign-in">
             <Content className="sign-in__content">

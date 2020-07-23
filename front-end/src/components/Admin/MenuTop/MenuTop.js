@@ -1,16 +1,24 @@
 import React from 'react';
+import { Redirect } from "react-router-dom";
 import { Button } from 'antd';
-import { 
+import {
     DoubleLeftOutlined,
     DoubleRightOutlined,
     PoweroffOutlined
-        } from '@ant-design/icons';
+} from '@ant-design/icons';
+
+import { logout } from '../../../api/auth';
 
 import Logo from '../../../assets/imgs/png/wtlogo.png';
 import './MenuTop.scss';
 
 export default function MenuTop(props) {
     const { menuCollapsed, setMenuCollapsed } = props;
+
+    const logoutUser = () => {
+        logout();
+        window.location.reload();
+    }
 
     return (
         <div className="menu-top">
@@ -29,7 +37,7 @@ export default function MenuTop(props) {
                 </Button>
             </div>
             <div className="menu-top__right">
-                <Button type="link">
+                <Button type="link" onClick={logoutUser}>
                     <PoweroffOutlined />
                 </Button>
             </div>

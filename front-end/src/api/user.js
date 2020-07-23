@@ -22,12 +22,12 @@ export function signUpApi(data) {
         }).catch(err => {
             return {
                 status: 500,
-                message: err
+                message: 'Something went wrong user.js:25 +' + err
             };
         })
 };
 
-export function signInApi (data) {
+export function signInApi(data) {
     const url = `${basePath}/${apiVersion}/sign-in`;
     const params = {
         method: "POST",
@@ -44,8 +44,8 @@ export function signInApi (data) {
             if (result) {
                 return result;
             }
-            return { status: 404, message: `Error, user.js:47 + ${result}` }
+            return { status: 404, message: `Error, api/user.js:47 + ${result}` }
         }).catch(err => {
-            return { status: 500, message: err };
+            return { status: 500, message: 'Something went wrong api/user.js: + ' + err };
         });
 }

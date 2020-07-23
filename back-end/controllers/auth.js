@@ -14,13 +14,13 @@ function willExpiredToken(token) {
     return false;
 };
 
-function refresAccessToken(req, res) {
+function refreshAccessToken(req, res) {
     const { refreshToken } = req.body;
     
     const isTokenExpired = willExpiredToken(refreshToken);
 
     if (isTokenExpired) {
-        res.status(404).send({ message: "rerfeshToken Expired" });
+        res.status(404).send({ message: "refreshToken Expired" });
     } else {
         const { id } = jwt.decodedToken(refreshToken);
         User.findById(id, (err, userStored) => {
@@ -41,5 +41,5 @@ function refresAccessToken(req, res) {
 }
 
 module.exports = {
-    refresAccessToken
+    refreshAccessToken
 }

@@ -3,6 +3,6 @@ const AuthController = require('../controllers/auth');
 
 const api = express.Router();
 
-api.post('/refresh-access-token', AuthController.refresAccessToken);
+api.post('/refresh-access-token', AuthController.refreshAccessToken);
 
 module.exports = api;
