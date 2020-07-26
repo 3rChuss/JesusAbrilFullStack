@@ -66,13 +66,13 @@ export default function RegisterForm() {
                 // Connect to the API and register user
                 const result = await signUpApi(inputs);
 
-                if (result.status !== "200") {
+                if (result.status !== 200) {
                     notification['error']({
-                        message: JSON.stringify('User already registered')
+                        message: 'User already registered'
                     })
                 } else {
                     notification['success']({
-                        message: JSON.stringify(result.message)
+                        message: 'User created, please check you email'
                     })
                 }
                 // Reset the form
