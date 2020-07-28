@@ -4,7 +4,10 @@ import { Link, withRouter } from 'react-router-dom';
 import { Layout, Menu } from 'antd';
 import {
     HomeOutlined,
-    UserOutlined
+    UserOutlined,
+    RedEnvelopeOutlined,
+    BarChartOutlined,
+    EuroOutlined
     } from '@ant-design/icons';
 
 
@@ -24,14 +27,35 @@ function SideMenu(props) {
                 <Menu.Item key="/admin">
                     <Link to={"/admin"}>
                     <HomeOutlined />
-                    <span className="nav-text">Home</span>
+                    <span className="nav-text">Dashboard</span>
                     </Link>
                 </Menu.Item>
 
                 <Menu.Item key="/admin/users">
                     <Link to={"/admin/users"}>
-                    <UserOutlined />
-                    <span className="nav-text">Users</span>
+                        <UserOutlined />
+                        <span className="nav-text">Users</span>
+                    </Link>
+                </Menu.Item>
+
+                <Menu.Item key="/admin/">
+                    <Link to={"/admin/"}>
+                    <RedEnvelopeOutlined />
+                    <span className="nav-text">Newsletter</span>
+                    </Link>
+                </Menu.Item>
+
+                <Menu.Item key="/admin/">
+                    <Link to={"/admin/"}>
+                        <BarChartOutlined />
+                        <span className="nav-text">Analitycs</span>
+                    </Link>
+                </Menu.Item>
+
+                <Menu.Item key="/admin/">
+                    <Link to={"/admin/"}>
+                        <EuroOutlined />
+                        <span className="nav-text">Payments</span>
                     </Link>
                 </Menu.Item>
             </Menu>

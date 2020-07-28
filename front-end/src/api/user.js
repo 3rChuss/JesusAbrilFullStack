@@ -49,3 +49,49 @@ export function signInApi(data) {
             return { status: 500, message: 'Something went wrong api/user.js: + ' + err };
         });
 }
+
+export function getUserApi(token) {
+    const url = `${basePath}/${apiVersion}/users`;
+
+    const params = {
+        method: "GET",
+        headers: {
+            "Content-type": "application/json",
+            Authorization: token
+        }
+    };
+    
+    return fetch(url, params)
+        .then(response => {
+            return response.json();
+        })
+        .then(result => {
+            return result;
+        })
+        .catch(err => {
+            return err.message;
+        });
+}
+
+export function getUserActiveApi(token, status) {
+    const url = `${basePath}/${apiVersion}/users-active?active=${status}`;
+
+    const params = {
+        method: "GET",
+        headers: {
+            "Content-type": "application/json",
+            Authorization: token
+        }
+    };
+
+    return fetch(url, params)
+        .then(response => {
+            return response.json();
+        })
+        .then(result => {
+            return result;
+        })
+        .catch(err => {
+            return err.message;
+        });
+}
