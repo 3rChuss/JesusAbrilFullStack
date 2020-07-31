@@ -11,6 +11,7 @@ import './Users.scss';
 export default function Users() {
     const [usersActive, setUsersActive] = useState([]);
     const [usersInactive, setUsersInactive] = useState([]);
+    const [reload, setReload] = useState(false);
     const token = getAccessTokenApi();
 
     useEffect(()=> {
@@ -19,12 +20,17 @@ export default function Users() {
         });
         getUserActiveApi(token, false).then(response => {
             setUsersInactive(response.users);
-        });  
-    }, [token]);
+        });
+        setReload(false);
+    }, [token, reload]);
 
     return (
         <div className="users">
-            <ListUsers usersActive={usersActive} usersInactive={usersInactive}/>
+            <ListUsers
+                usersActive={usersActive}
+                usersInactive={usersInactive}
+                setReload={setReload}
+            />
         </div>
-    )
+    );
 }

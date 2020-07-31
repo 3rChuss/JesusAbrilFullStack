@@ -8,6 +8,8 @@ function willExpiredToken(token) {
     const { exp } = jwt.decodedToken(token);
     const currentDate = moment().unix();
 
+    console.log(currentDate);
+
     if (currentDate > exp) {
         return true;
     }
@@ -41,5 +43,5 @@ function refreshAccessToken(req, res) {
 }
 
 module.exports = {
-    refreshAccessToken
-}
+  refreshAccessToken,
+};

@@ -27,9 +27,10 @@ export default function LoginForm() {
 
     const login = async () => {
         const result = await signInApi(inputs);
-        if (!result.status === 200) {
+
+        if (result.message) {
             notification['error']({
-                message: 'Error: LoginForm.js:32 + ' + result.message
+                message: result.message
             });
         } else {
             const { accessToken, refreshToken } = result;
