@@ -254,7 +254,6 @@ function createNewUser(req, res) {
                     if (err) {
                         res.status(500).send({ message: 'The user already exists.' });
                     } else {
-                        console.log(newUser);
                         if (!newUser) {
                             res.status(404).send({ message: 'Error while creating new user: controller/user.js:261' });
                         } else {
