@@ -2,8 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { Switch, List, Avatar, Button, notification, Modal as ModalAntd } from 'antd';
 import noAvatar from '../../../../assets/imgs/png/no-avatar.png';
 import {
-    EditOutlined, StopOutlined, DeleteOutlined, CheckOutlined
-} from '@ant-design/icons';
+  EditOutlined,
+  StopOutlined,
+  DeleteOutlined,
+  CheckOutlined,
+  CloseOutlined,
+} from "@ant-design/icons";
 
 // API
 // ....
@@ -73,6 +77,8 @@ export default function ListUsers(props) {
             <Switch
               defaultChecked
               onChange={() => setViewUsersActive(!viewUsersActive)}
+              checkedChildren={<CheckOutlined />}
+              unCheckedChildren={<CloseOutlined />}
             />
             <span>
               {viewUsersActive
