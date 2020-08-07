@@ -1,12 +1,10 @@
 const Menu = require('../models/menu');
 
 function addMenu(req, res) {
-    const { title, url, order, active } = req.body;
+    const { title, menuData } = req.body;
     const menu = new Menu({
-        title: title,
-        url: url,
-        order: order,
-        active: active
+        title,
+        menu: menuData
     });
 
     menu.save((err, createdMenu) => {
@@ -24,7 +22,7 @@ function addMenu(req, res) {
 
 function getMenus(req, res) {
     Menu.find()
-        .sort({ order: "asc" })
+        .sort({'menu.order': "asc" })
         .exec((err, menuStored) => {
             if (err) {
                 res.status(500).send({ message: 'Server Error' })
@@ -54,6 +52,7 @@ function updateMenu(req, res) {
         }
     });
 }
+
 
 module.exports = {
   addMenu,

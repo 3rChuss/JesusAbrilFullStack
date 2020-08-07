@@ -57,7 +57,10 @@ export default function MenuList(props) {
         setIsVisibleModal(true);
         setModalTitle('New menu');
         setModalContent(
-            <AddMenuFrom />
+            <AddMenuFrom
+                setIsVisibleModal={setIsVisibleModal}
+                setReloadMenu={setReloadMenu}
+            />
         );
     }
 
