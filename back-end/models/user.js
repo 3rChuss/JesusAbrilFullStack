@@ -6,12 +6,13 @@ const UserSchema = Schema({
     lastName: String,
     email: {
         type: String,
-        unique: true
+        unique: true,
+        lowercase: true,
     },
     password: String,
     role: String,
     active: Boolean,
-    avatar: String
+    avatar: String,
 });
 
 module.exports = mongoose.model('User', UserSchema);

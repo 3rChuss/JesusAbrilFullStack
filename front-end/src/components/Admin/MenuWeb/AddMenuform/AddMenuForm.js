@@ -13,18 +13,18 @@ export default function AddMenuForm(props) {
 
     const [menuData, setMenuData] = useState({});
 
-    const addMenu = e => {
+    const addMenu = (e) => {
         e.preventDefault();
         let data = {
-          title: menuData.title,
-          url: `https://${menuData.url}`,
-          cssClass: menuData.cssClass,
-          anchorId: menuData.anchorId,
+            title: menuData.title,
+            url: `https://${menuData.url}`,
+            cssClass: menuData.cssClass,
+            anchorId: menuData.anchorId,
         };
-        
+
         if (!data.title || !data.url || !menuData.url) {
-            notification['error']({
-                message: 'Title and URL are required'
+            notification["error"]({
+                message: "Title and URL are required",
             });
         } else {
             const accessToken = getAccessTokenApi();
@@ -32,9 +32,9 @@ export default function AddMenuForm(props) {
             data.order = 1000;
 
             addMenuApi(accessToken, data)
-                .then(response => {
+                .then((response) => {
                     notification["success"]({
-                      message: response.message,
+                        message: response.message,
                     });
                     setIsVisibleModal(false);
                     setReloadMenu(true);
@@ -42,23 +42,24 @@ export default function AddMenuForm(props) {
                     data = {};
                 })
                 .catch((err) => {
-                    notification['error']({
-                        message: err
+                    notification["error"]({
+                        message: err,
                     });
-            })
-        }
-    }
+                });
+        };
+    };
 
     return (
-      <div className="add-menu-form">
-            <AddForm
-                menuData={menuData}
-                setMenuData={setMenuData}
-                addMenu={addMenu}
-            />
-      </div>
+    <div className="add-menu-form">
+        <AddForm
+        menuData={menuData}
+        setMenuData={setMenuData}
+        addMenu={addMenu}
+        />
+    </div>
     );
-}
+    };
+               
 
 function AddForm(props) {
     const { menuData, setMenuData, addMenu } = props;

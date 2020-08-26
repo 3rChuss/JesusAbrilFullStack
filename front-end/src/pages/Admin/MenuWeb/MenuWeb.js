@@ -6,19 +6,19 @@ import { getMenuApi } from '../../../api/menu';
 import MenuList from '../../../components/Admin/MenuWeb/MenuList';
 
 export default function MenuWeb() {
-    const [menu, setMenu] = useState([]);
+    const [menus, setMenus] = useState([]);
     const [reloadMenu, setReloadMenu] = useState(false);
 
     useEffect(() => {
         getMenuApi().then(response => {
-            setMenu(response.menu);
+            setMenus(response.menus);
         })
         setReloadMenu(false);
     }, [reloadMenu]);
 
     return (
         <div className="menu-web">
-            <MenuList menu={menu} setReloadMenu={setReloadMenu}/>
+            <MenuList menus={menus} setReloadMenu={setReloadMenu}/>
         </div>
     )
 }

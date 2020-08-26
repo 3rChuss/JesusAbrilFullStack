@@ -2,8 +2,21 @@
     &__header{
         display: flex;
         align-items: center;
-        justify-content: flex-end;
         margin-bottom: 20px;
+        justify-content: space-between;
+
+        .ant-select {
+            min-width: 200px;
+        }
+                    
+        &-items {
+            .text{
+                margin-right: 5px;
+            }
+            .link{
+                margin-left: 5px;
+            }
+        }
     }
 
     &__items {
@@ -30,6 +43,15 @@
         .ant-list-item-meta {
             display: flex;
             align-items: center;
+
+            &-description {
+                .details{
+                    display: block;
+                    .url, .cssClass, .anchorId{
+                        margin: 0 35px 0 3px;
+                    }
+                }
+            }
         }
     }
 }

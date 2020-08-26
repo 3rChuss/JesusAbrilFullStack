@@ -1,10 +1,10 @@
 const Menu = require('../models/menu');
 
 function addMenu(req, res) {
-    const { title, menuData } = req.body;
+    const { title, items} = req.body;
     const menu = new Menu({
         title,
-        menu: menuData
+        items
     });
 
     menu.save((err, createdMenu) => {
@@ -23,14 +23,14 @@ function addMenu(req, res) {
 function getMenus(req, res) {
     Menu.find()
         .sort({'menu.order': "asc" })
-        .exec((err, menuStored) => {
+        .exec((err, menusStored) => {
             if (err) {
                 res.status(500).send({ message: 'Server Error' })
             } else {
-                if (!menuStored) {
+                if (!menusStored) {
                     res.status(404).send({ message: 'Menu not found.' })
                 } else {
-                    res.status(200).send({ menu: menuStored });
+                    res.status(200).send({ menus: menusStored });
                 }
             }
         });
@@ -40,17 +40,25 @@ function updateMenu(req, res) {
     let menuData = req.body;
     const params = req.params;
 
-    Menu.findByIdAndUpdate(params.id, menuData, (err, menuUpdated) => {
+    Menu.findByIdAndUpdate(
+      params.id,
+      { menu: menuData },
+      { new: true, upsert: true },
+      (err, menuUpdated) => {
+        console.log(menuUpdated);
         if (err) {
-            res.status(500).send({ message: 'Server error while updating the menu' });
+          res
+            .status(500)
+            .send({ message: "Server error while updating the menu" });
         } else {
-            if (!menuUpdated) {
-                res.status(404).send({ message: "Menu can't be find" });
-            } else {
-                res.status(200).send({ message: 'Menu updated successfully' });
-            }
+          if (!menuUpdated) {
+            res.status(404).send({ message: "Menu can't be find" });
+          } else {
+            res.status(200).send({ message: "Menu updated successfully" });
+          }
         }
-    });
+      }
+    );
 }
 
 
