@@ -1,10 +1,10 @@
 const Menu = require('../models/menu');
 
 function addMenu(req, res) {
-    const { title, items} = req.body;
+    const { title } = req.body;
     const menu = new Menu({
         title,
-        items
+        items: new Array()
     });
 
     menu.save((err, createdMenu) => {
@@ -36,34 +36,34 @@ function getMenus(req, res) {
         });
 }
 
-function updateMenu(req, res) {
-    let menuData = req.body;
-    const params = req.params;
+// Find menu selected and update 
+function menuPushItemApi(req, res) {
+    let item = req.body;
+    const menuId = req.params;
 
     Menu.findByIdAndUpdate(
-      params.id,
-      { menu: menuData },
-      { new: true, upsert: true },
-      (err, menuUpdated) => {
-        console.log(menuUpdated);
-        if (err) {
-          res
-            .status(500)
-            .send({ message: "Server error while updating the menu" });
-        } else {
-          if (!menuUpdated) {
-            res.status(404).send({ message: "Menu can't be find" });
-          } else {
-            res.status(200).send({ message: "Menu updated successfully" });
-          }
+        { _id: menuId.id },
+        { $push: { items: item } },
+        { new: true, upsert: true },
+        (err, menuUpdated) => {
+            if (err) {
+                res
+                    .status(500)
+                    .send({ message: "Server error while updating the menu" });
+            } else {
+                if (!menuUpdated) {
+                    res.status(404).send({ message: "Menu can't be find" });
+                } else {
+                    res.status(200).send({ message: "Menu updated successfully" });
+                }
+            }
         }
-      }
     );
-}
+};
 
 
 module.exports = {
   addMenu,
   getMenus,
-  updateMenu,
+  menuPushItemApi,
 };

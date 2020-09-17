@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Switch, List, Button, notification, Select, Modal as Modalant } from 'antd';
+import { Switch, List, Button, notification, Select} from 'antd';
 import DragSortableList from "react-drag-sortable";
 import {
   EditOutlined,
@@ -38,30 +38,30 @@ export default function MenuList(props) {
     const [modalContent, setModalContent] = useState(null);
     const { Option } = Select;
 
-    useEffect(() => {
-      //load the select menu
-      const menuSelect = [];
-      menus.forEach((menu) => {
-          menuSelect.push(menu)
-      });
-      setSelectMenu(menuSelect);
-      //Load item from selectedMenu
-      const listItems = [];
-      menus.forEach((menu) => {
-        if (menu._id === menuSelected) {
-          listItems.push({
-            content: (
-              <MenuItem
-                items={menu.items}
-                updateMenu={updateMenu}
-                menuSelected={menuSelected}
-              />
-            ),
-          });
-        }
-      });
-      setListItems(listItems);
-    }, [menus, menuSelected]);
+  useEffect(() => {
+    //load the select menu
+    const menuSelect = [];
+    menus.forEach((menu) => {
+      menuSelect.push(menu)
+    });
+    setSelectMenu(menuSelect);
+    //Load item from selectedMenu
+    const listItems = [];
+    menus.forEach((menu) => {
+      if (menu._id === menuSelected) {
+        listItems.push({
+          content: (
+            <MenuItem
+              items={menu.items}
+              updateMenu={updateMenu}
+              menuSelected={menuSelected}
+            />
+          ),
+        });
+      }
+    });
+    setListItems(listItems);
+  }, [menus, menuSelected]);
 
   const updateMenu = (item, active) => {
     const { menu } = item;
@@ -89,6 +89,7 @@ export default function MenuList(props) {
       <AddMenuForm
         setIsVisibleModal={setIsVisibleModal}
         setReloadMenu={setReloadMenu}
+        menuSelected={menuSelected}
       />
     );
   };
@@ -97,7 +98,10 @@ export default function MenuList(props) {
     setIsVisibleModal(true);
     setModalTitle("Add New Menu");
     setModalContent(
-
+      <CreateMenu
+        setIsVisibleModal={setIsVisibleModal}
+        setReloadMenu={setReloadMenu}
+      />
     );
   }
 

@@ -26,15 +26,15 @@ export function updateMenuApi(token, menuId, data) {
         .catch(err => err);
 }
 
-export function addMenuApi(token, title) {
+export function addMenuApi(token, data) {
     const url = `${basePath}/${apiVersion}/add-menu`;
     const params = {
-      method: "POST",
+      method: 'POST',
       headers: {
         "Content-type": "application/json",
         Authorization: token,
       },
-      body: JSON.stringify(title),
+      body: JSON.stringify(data),
     };
 
     return fetch(url, params)

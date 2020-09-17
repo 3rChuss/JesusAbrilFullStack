@@ -2,63 +2,63 @@ import React, { useState } from 'react';
 import { Form, Input, Button, Col, Row, notification } from 'antd';
 import { FontSizeOutlined, EditOutlined, TagOutlined } from "@ant-design/icons";
 
-import { addMenuApi } from '../../../../api/menu';
+import { updateMenuApi } from "../../../../api/menu";
 import { getAccessTokenApi } from '../../../../api/auth';
 
 import './AddMenuForm.scss'
 import MenuWeb from '../../../../pages/Admin/MenuWeb/MenuWeb';
 
 export default function AddMenuForm(props) {
-    const { setIsVisibleModal, setReloadMenu } = props;
+  const { setIsVisibleModal, setReloadMenu, menuSelected } = props;
 
-    const [menuData, setMenuData] = useState({});
+  const [menuData, setMenuData] = useState({});
 
-    const addMenu = (e) => {
-        e.preventDefault();
-        let data = {
-            title: menuData.title,
-            url: `https://${menuData.url}`,
-            cssClass: menuData.cssClass,
-            anchorId: menuData.anchorId,
-        };
-
-        if (!data.title || !data.url || !menuData.url) {
-            notification["error"]({
-                message: "Title and URL are required",
-            });
-        } else {
-            const accessToken = getAccessTokenApi();
-            data.active = false;
-            data.order = 1000;
-
-            addMenuApi(accessToken, data)
-                .then((response) => {
-                    notification["success"]({
-                        message: response.message,
-                    });
-                    setIsVisibleModal(false);
-                    setReloadMenu(true);
-                    setMenuData({});
-                    data = {};
-                })
-                .catch((err) => {
-                    notification["error"]({
-                        message: err,
-                    });
-                });
-        };
+  const addMenu = (e) => {
+    e.preventDefault();
+    let data = {
+      title: menuData.title,
+      url: `https://${menuData.url}`,
+      cssClass: menuData.cssClass,
+      anchorId: menuData.anchorId,
     };
 
-    return (
+    if (!data.title || !data.url || !menuData.url) {
+      notification["error"]({
+        message: "Title and URL are required",
+      });
+    } else {
+      const accessToken = getAccessTokenApi();
+      data.active = false;
+      data.order = 1000;
+
+      updateMenuApi(accessToken, menuSelected, data)
+        .then((response) => {
+          notification["success"]({
+            message: response.message,
+          });
+          setIsVisibleModal(false);
+          setReloadMenu(true);
+          setMenuData({});
+          data = {};
+        })
+        .catch((err) => {
+          notification["error"]({
+            message: err,
+          });
+        });
+    };
+  };
+
+  return (
     <div className="add-menu-form">
-        <AddForm
+      <AddForm
         menuData={menuData}
         setMenuData={setMenuData}
         addMenu={addMenu}
-        />
+      />
     </div>
-    );
-    };
+  );
+};
                
 
 function AddForm(props) {
