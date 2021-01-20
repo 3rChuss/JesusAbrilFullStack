@@ -7,9 +7,6 @@ const User = require('../models/user');
 function willExpiredToken(token) {
     const { exp } = jwt.decodedToken(token);
     const currentDate = moment().unix();
-
-    console.log(currentDate);
-
     if (currentDate > exp) {
         return true;
     }
@@ -17,6 +14,7 @@ function willExpiredToken(token) {
 };
 
 function refreshAccessToken(req, res) {
+    console.log("hola!");
     const { refreshToken } = req.body;
     
     const isTokenExpired = willExpiredToken(refreshToken);

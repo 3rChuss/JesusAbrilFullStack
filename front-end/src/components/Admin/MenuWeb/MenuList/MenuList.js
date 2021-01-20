@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Switch, List, Button, notification, Select} from 'antd';
-import DragSortableList from "react-drag-sortable";
+import DragSortableList from 'react-drag-sortable';
 import {
   EditOutlined,
   DeleteOutlined,
@@ -64,10 +64,9 @@ export default function MenuList(props) {
   }, [menus, menuSelected]);
 
   const updateMenu = (item, active) => {
-    const { menu } = item;
-    menu.active = active;
+    item.active = active;
     const accessToken = getAccessTokenApi();
-    updateMenuApi(accessToken, item._id, { menu })
+    updateMenuApi(accessToken, item._id, { active })
       .then(result => {
         notification['success']({ message: result });
       });

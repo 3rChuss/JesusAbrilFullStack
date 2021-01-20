@@ -42,10 +42,10 @@ function menuPushItemApi(req, res) {
     const menuId = req.params;
 
     Menu.findByIdAndUpdate(
-        { _id: menuId.id },
-        { $push: { items: item } },
-        { new: true, upsert: true },
+        menuId.id, item,
+        { new: true },
         (err, menuUpdated) => {
+            console.log(err);
             if (err) {
                 res
                     .status(500)

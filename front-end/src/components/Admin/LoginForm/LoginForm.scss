@@ -34,4 +34,16 @@
         border-color: $font-accent !important;
         box-shadow: 0 0 0 2px rgba($color: $font-accent, $alpha: 0.2) ;
     }
+
+    .ant-checkbox {
+        &:hover {
+            border-color: rgb(80, 107, 255);
+        }
+    }
+
+    .ant-checkbox-checked .ant-checkbox-inner{
+        background-color: #6074edff;
+        border-color: rgb(80, 107, 255);
+    }
+
 }

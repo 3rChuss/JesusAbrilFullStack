@@ -2,8 +2,15 @@
 
 .side-menu {
     position: fixed;
-    height: 100vh;
+    height: 90vh;
     left: 0;
     top: 65px;
     overflow: auto;
+}
+
+.side-menu-bottom {
+    position: fixed;
+    height: 50px;
+    left: 0;
+    bottom: 0;
 }
