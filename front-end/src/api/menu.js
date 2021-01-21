@@ -8,7 +8,9 @@ export function getMenuApi() {
         .catch(err => err.message);
 }
 
-export function updateMenuApi(token, menuId, data) {
+
+//actualizar orden del item en el menu principal.
+export function updateMenuApi(token, mainMenuId, menuId, data) {
     const url = `${basePath}/${apiVersion}/update-menu/${menuId}`;
 
     const params = {
@@ -19,7 +21,6 @@ export function updateMenuApi(token, menuId, data) {
         },
         body: JSON.stringify(data)
     };
-
     return fetch(url, params)
         .then(response => response.json())
         .then(result => result.message)

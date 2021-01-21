@@ -31,6 +31,7 @@ import './MenuList.scss';
 export default function MenuList(props) {
     const { menus, setReloadMenu } = props;
     const [listItems, setListItems] = useState([]);
+    const [menuItems, setMenuItems] = useState([]);
     const [menuSelected, setMenuSelected] = useState("");
     const [selectMenu, setSelectMenu] = useState([]);
     const [isVisibleModal, setIsVisibleModal] = useState(false);
@@ -47,7 +48,7 @@ export default function MenuList(props) {
     setSelectMenu(menuSelect);
     //Load item from selectedMenu
     const listItems = [];
-    menus.forEach((menu) => {
+    menus.forEach((menu, key) => {
       if (menu._id === menuSelected) {
         listItems.push({
           content: (
@@ -63,22 +64,35 @@ export default function MenuList(props) {
     setListItems(listItems);
   }, [menus, menuSelected]);
 
-  const updateMenu = (item, active) => {
+  const updateMenu = (item, active, mainMenuId) => {
     item.active = active;
     const accessToken = getAccessTokenApi();
-    updateMenuApi(accessToken, item._id, { active })
-      .then(result => {
-        notification['success']({ message: result });
-      });
+    updateMenuApi(accessToken, mainMenuId, item._id, { active }).then(
+      (result) => {
+        notification["success"]({ message: result });
+      }
+    );
   };
 
   const onSort = (sortedList, dropEvent) => {
-    // const accessToken = getAccessTokenApi();
-    // sortedList.forEach(item => {
-    //   const { _id } = item.content.props.menu.items;
-    //   const order = item.rank;
-    //   updateMenuApi(accessToken, _id, { order });
-    // });
+    const accessToken = getAccessTokenApi();
+
+    const items = sortedList.map(item => {
+      return item.content.props.items;
+    });
+
+    let itemId = "";
+    let order = 0;
+
+    for (let i = 0; i < items.length; i++) {
+      const element = items[i];
+      for (let x = 0; x < element.length; x++) {
+        const item = element[x];
+        itemId = item._id;
+        order = item.order;
+      }
+    }
+    //updateMenuApi(accessToken, itemId, { order });
   };
 
   const addItemModal = () => {
@@ -123,21 +137,31 @@ export default function MenuList(props) {
             })}
           </Select>
           <span className="link">
-            <Link to="#" onClick={addMenuModal} > or create a new menu </Link>
+            <Link to="#" onClick={addMenuModal}>
+              {" "}
+              or create a new menu{" "}
+            </Link>
           </span>
         </div>
-        {menuSelected ? 
+        {menuSelected ? (
           <div className="menu-list__header-items">
             <Button type="primary" onClick={addItemModal}>
               <p>Add New Item to Menu</p>
             </Button>
           </div>
-          :
-          null
-        }
+        ) : null}
       </div>
       <div className="menu-list__items">
-        <DragSortableList items={listItems} onSort={onSort} dropBackTransitionDuration={0.3} type="vertical" />
+        {menuSelected ? (
+          <DragSortableList
+            items={listItems}
+            onSort={onSort}
+            dropBackTransitionDuration={0.3}
+            type="vertical"
+          />
+        ) : (
+          <div className="empty">No menu selected yet</div>
+        )}
       </div>
       <Modal
         title={modalTitle}
@@ -166,7 +190,7 @@ function MenuItem(props) {
             actions={[
               <Switch
                 defaultChecked={item.active}
-                onChange={(e) => updateMenu(item, e)}
+                onChange={(e) => updateMenu(item, e, menuSelected)}
                 checkedChildren={<CheckOutlined />}
                 unCheckedChildren={<CloseOutlined />}
                 title="Visibility"
@@ -195,6 +219,7 @@ function MenuItem(props) {
                   <span className="anchorId" title="ID">
                     {item.anchorId}
                   </span>
+                  <span>{item._id}</span>
                 </div>
               }
             />

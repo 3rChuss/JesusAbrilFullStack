@@ -40,6 +40,7 @@ function getMenus(req, res) {
 function menuPushItemApi(req, res) {
     let item = req.body;
     const menuId = req.params;
+    console.log(req.params);
 
     Menu.findByIdAndUpdate(
         menuId.id, item,
