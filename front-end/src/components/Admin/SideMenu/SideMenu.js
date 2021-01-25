@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
 
-import { Layout, Menu } from 'antd';
+import { Layout, Menu, Divider } from 'antd';
 import {
   HomeOutlined,
   UserOutlined,
@@ -76,20 +76,14 @@ function SideMenu(props) {
               <span className="nav-text">Invoices</span>
             </Link>
           </Menu.Item>
-        </Menu>
-      </Sider>
 
-      <Sider className="side-menu-bottom" collapsed={menuCollapsed}>
-        <Menu
-          theme="dark"
-          mode="vertical"
-          defaultSelectedKeys={[location.pathname]}
-        >
-          <Menu.Item key="/admin/tools">
-            <Link to={"/admin/tools"}>
+          <Menu.Item key="/admin/config">
+            <Link to={"/admin/config"}>
               <SettingOutlined />
+              <span className="nav-text">Config</span>
             </Link>
           </Menu.Item>
+
         </Menu>
       </Sider>
     </div>

@@ -1,16 +1,12 @@
 @import '../../../scss/var';
-
+.ant-menu li:first-child {
+    margin-top: 0;
+}
 .side-menu {
     position: fixed;
-    height: 90vh;
+    height: 100vh;
     left: 0;
     top: 65px;
     overflow: auto;
 }
 
-.side-menu-bottom {
-    position: fixed;
-    height: 50px;
-    left: 0;
-    bottom: 0;
-}

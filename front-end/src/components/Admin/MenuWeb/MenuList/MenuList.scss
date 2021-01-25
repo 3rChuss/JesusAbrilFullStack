@@ -20,16 +20,15 @@
     }
 
     &__items {
-        background-color: #fff;
-        padding: 10px 20px;
-
         .List{
             position: relative;
             
             .draggable {
                 width: 100%;
-                background-color: rgba(255,255,255,.5);
-                
+                background-color: #fff;
+                padding: 10px 20px;
+                margin-bottom: 10px;
+
                 &:hover{
                     cursor: pointer;
                 }
@@ -39,7 +38,9 @@
                     padding: 0px 10px;
                 }
             }
+
         }
+
         .ant-list-item-meta {
             display: flex;
             align-items: center;

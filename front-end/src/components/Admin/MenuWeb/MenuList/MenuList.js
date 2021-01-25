@@ -48,19 +48,23 @@ export default function MenuList(props) {
     setSelectMenu(menuSelect);
     //Load item from selectedMenu
     const listItems = [];
-    menus.forEach((menu, key) => {
-      if (menu._id === menuSelected) {
-        listItems.push({
-          content: (
-            <MenuItem
-              items={menu.items}
-              updateMenu={updateMenu}
-              menuSelected={menuSelected}
-            />
-          ),
-        });
+
+    for (let i = 0; i < menus.length; i++) {
+      const element = menus[i];
+      if (element._id === menuSelected) {
+        element.items.forEach((item) => {
+          listItems.push({
+            content: (
+              <MenuItem
+                item={item}
+                updateMenu={updateMenu}
+                menuSelected={menuSelected}
+              />
+            ),
+          });
+        })
       }
-    });
+    }
     setListItems(listItems);
   }, [menus, menuSelected]);
 
@@ -75,24 +79,26 @@ export default function MenuList(props) {
   };
 
   const onSort = (sortedList, dropEvent) => {
-    const accessToken = getAccessTokenApi();
 
-    const items = sortedList.map(item => {
-      return item.content.props.items;
-    });
+    console.log(sortedList);
+    // const accessToken = getAccessTokenApi();
 
-    let itemId = "";
-    let order = 0;
+    // const items = sortedList.map(item => {
+    //   return item.content.props.items;
+    // });
 
-    for (let i = 0; i < items.length; i++) {
-      const element = items[i];
-      for (let x = 0; x < element.length; x++) {
-        const item = element[x];
-        itemId = item._id;
-        order = item.order;
-      }
-    }
-    //updateMenuApi(accessToken, itemId, { order });
+    // let itemId = "";
+    // let order = 0;
+
+    // for (let i = 0; i < items.length; i++) {
+    //   const element = items[i];
+    //   for (let x = 0; x < element.length; x++) {
+    //     const item = element[x];
+    //     itemId = item._id;
+    //     order = item.order;
+    //   }
+    // }
+    // updateMenuApi(accessToken, itemId, { order });
   };
 
   const addItemModal = () => {
@@ -151,18 +157,18 @@ export default function MenuList(props) {
           </div>
         ) : null}
       </div>
-      <div className="menu-list__items">
-        {menuSelected ? (
+      {menuSelected ? (
+        <div className="menu-list__items">
           <DragSortableList
             items={listItems}
             onSort={onSort}
             dropBackTransitionDuration={0.3}
             type="vertical"
           />
-        ) : (
-          <div className="empty">No menu selected yet</div>
-        )}
-      </div>
+        </div>
+      ) : (
+        <div className="empty">No menu selected yet</div>
+      )}
       <Modal
         title={modalTitle}
         isVisible={isVisibleModal}
@@ -176,57 +182,51 @@ export default function MenuList(props) {
 
 
 function MenuItem(props) {
-  const { items, updateMenu, menuSelected } = props;
+  const { item, updateMenu, menuSelected } = props;
   if (!menuSelected) {
     return null;
   } else {
     return (
-      <List
-        dataSource={items}
-        renderItem={item => (
-          <List.Item
-            key={item._id}
-            loading="true"
-            actions={[
-              <Switch
-                defaultChecked={item.active}
-                onChange={(e) => updateMenu(item, e, menuSelected)}
-                checkedChildren={<CheckOutlined />}
-                unCheckedChildren={<CloseOutlined />}
-                title="Visibility"
-              />,
-              <Button type="primary">
-                <EditOutlined />
-              </Button>,
-              <Button type="danger">
-                <DeleteOutlined />
-              </Button>,
-            ]}
-          >
-            <List.Item.Meta
-              title={item.title}
-              description={
-                <div className="details">
-                  <LinkOutlined />
-                  <span className="url" title="URL">
-                    {item.url}
-                  </span>
-                  <FormatPainterOutlined />
-                  <span className="cssClass" title="CSS class">
-                    {item.cssClass}
-                  </span>
-                  <NumberOutlined />
-                  <span className="anchorId" title="ID">
-                    {item.anchorId}
-                  </span>
-                  <span>{item._id}</span>
-                </div>
-              }
-            />
-          </List.Item>
-        )}
-      />
-        
+      <List.Item
+        key={item._id}
+        loading="true"
+        actions={[
+          <Switch
+            defaultChecked={item.active}
+            onChange={(e) => updateMenu(item, e, menuSelected)}
+            checkedChildren={<CheckOutlined />}
+            unCheckedChildren={<CloseOutlined />}
+            title="Visibility"
+          />,
+          <Button type="primary">
+            <EditOutlined />
+          </Button>,
+          <Button type="danger">
+            <DeleteOutlined />
+          </Button>,
+        ]}
+      >
+        <List.Item.Meta
+          title={item.title}
+          description={
+            <div className="details">
+              <LinkOutlined />
+              <span className="url" title="URL">
+                {item.url}
+              </span>
+              <FormatPainterOutlined />
+              <span className="cssClass" title="CSS class">
+                {item.cssClass}
+              </span>
+              <NumberOutlined />
+              <span className="anchorId" title="ID">
+                {item.anchorId}
+              </span>
+              <span>{item._id}</span>
+            </div>
+          }
+        />
+      </List.Item>
     );
   }
 }
