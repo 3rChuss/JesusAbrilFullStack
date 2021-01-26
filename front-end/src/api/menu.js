@@ -10,8 +10,8 @@ export function getMenuApi() {
 
 
 //actualizar orden del item en el menu principal.
-export function updateMenuApi(token, mainMenuId, menuId, data) {
-    const url = `${basePath}/${apiVersion}/update-menu/${menuId}`;
+export function updateMenuApi(token, action, menuId, data) {
+    const url = `${basePath}/${apiVersion}/${action}/${menuId}`;
 
     const params = {
         method: 'PUT',

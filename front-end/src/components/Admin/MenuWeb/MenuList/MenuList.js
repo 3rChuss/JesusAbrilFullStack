@@ -28,10 +28,15 @@ import Modal from '../../../Modal';
 import './MenuList.scss';
 
 
+//Notificacion Config
+notification.config({
+  duration: 2,
+});
+
+
 export default function MenuList(props) {
     const { menus, setReloadMenu } = props;
     const [listItems, setListItems] = useState([]);
-    const [menuItems, setMenuItems] = useState([]);
     const [menuSelected, setMenuSelected] = useState("");
     const [selectMenu, setSelectMenu] = useState([]);
     const [isVisibleModal, setIsVisibleModal] = useState(false);
@@ -68,10 +73,10 @@ export default function MenuList(props) {
     setListItems(listItems);
   }, [menus, menuSelected]);
 
-  const updateMenu = (item, active, mainMenuId) => {
-    item.active = active;
+  const updateMenu = (menu, data) => {
     const accessToken = getAccessTokenApi();
-    updateMenuApi(accessToken, mainMenuId, item._id, { active }).then(
+    console.log(data);
+    updateMenuApi(accessToken, "activate-menu", menu, data).then(
       (result) => {
         notification["success"]({ message: result });
       }
@@ -79,26 +84,17 @@ export default function MenuList(props) {
   };
 
   const onSort = (sortedList, dropEvent) => {
-
     console.log(sortedList);
-    // const accessToken = getAccessTokenApi();
-
-    // const items = sortedList.map(item => {
-    //   return item.content.props.items;
-    // });
-
-    // let itemId = "";
-    // let order = 0;
-
-    // for (let i = 0; i < items.length; i++) {
-    //   const element = items[i];
-    //   for (let x = 0; x < element.length; x++) {
-    //     const item = element[x];
-    //     itemId = item._id;
-    //     order = item.order;
-    //   }
-    // }
-    // updateMenuApi(accessToken, itemId, { order });
+    const accessToken = getAccessTokenApi();
+    sortedList.forEach(item => {
+      const { _id } = item.content.props.item;
+      const { menuSelected } = item.content.props;
+      const order = item.rank;
+      updateMenuApi(accessToken, "update-menu", menuSelected, { _id, order })
+        .then(result => {
+          notification["success"]({ message: result });
+        });
+    })
   };
 
   const addItemModal = () => {
@@ -193,7 +189,7 @@ function MenuItem(props) {
         actions={[
           <Switch
             defaultChecked={item.active}
-            onChange={(e) => updateMenu(item, e, menuSelected)}
+            onChange={(e) => updateMenu(menuSelected, { "id" : item._id, "active" : e })}
             checkedChildren={<CheckOutlined />}
             unCheckedChildren={<CloseOutlined />}
             title="Visibility"
@@ -211,8 +207,10 @@ function MenuItem(props) {
           description={
             <div className="details">
               <LinkOutlined />
-              <span className="url" title="URL">
-                {item.url}
+              <span className="url" title="URL" role="link">
+                <Link to={window.location.origin + item.url} target="_blank">
+                  {item.url}
+                </Link>
               </span>
               <FormatPainterOutlined />
               <span className="cssClass" title="CSS class">
@@ -222,7 +220,6 @@ function MenuItem(props) {
               <span className="anchorId" title="ID">
                 {item.anchorId}
               </span>
-              <span>{item._id}</span>
             </div>
           }
         />

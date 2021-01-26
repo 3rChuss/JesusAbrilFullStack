@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { Avatar, Form, Input, Select, Button, Row, Col, notification, message } from 'antd';
+import { Avatar, Form, Input, Select, Button, Row, Col, notification } from 'antd';
 import { useDropzone } from "react-dropzone";
 import { UserOutlined, MailOutlined, LockOutlined } from "@ant-design/icons";
 

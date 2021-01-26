@@ -36,35 +36,74 @@ function getMenus(req, res) {
         });
 }
 
-// Find menu selected and update 
-function menuPushItemApi(req, res) {
-    let item = req.body;
-    const menuId = req.params;
-    console.log(req.params);
+// Find the menu selected and update child menu
+function updateMenu(req, res) {
+    let menuData = req.body;
+    const params = req.params;
+
+    let { order } = menuData;
+    console.log(req.body);
 
     Menu.findByIdAndUpdate(
-        menuId.id, item,
-        { new: true },
+        params.id, menuData._id,
+        {
+            $set: { "items.$.order": order }
+        },
         (err, menuUpdated) => {
-            console.log(err);
             if (err) {
-                res
-                    .status(500)
-                    .send({ message: "Server error while updating the menu" });
+                res.status(500).send({
+                    message: "Server error finding and updating menu (menu.js)",
+                });
             } else {
                 if (!menuUpdated) {
-                    res.status(404).send({ message: "Menu can't be find" });
+                    res
+                        .status(404)
+                        .send({ message: "Can't find the menu to update (menu.js)" });
                 } else {
-                    res.status(200).send({ message: "Menu updated successfully" });
+                    res.status(200).send({ message: "Menu updated successfully! 🤙" });
                 }
             }
         }
     );
-};
+}
+
+
+function activateMenu(req, res) {
+
+    const { id, active } = req.body;
+
+    Menu.findByIdAndUpdate(req.params.id, id, { active }, (err, menuUpdated) => {
+        if (err) {
+            res.status(500).send({
+                message:
+                    "Server error finding and updating menu (menu.js)",
+            });
+        } else {
+            if (!menuUpdated) {
+                res
+                    .status(404)
+                    .send({
+                        message: "Can't find the menu to update (menu.js)",
+                    });
+            } else {
+                if (active === true) {
+                    res
+                        .status(200)
+                        .send({ message: "Menu activated successfully! 🤙" });
+                } else {
+                    res
+                      .status(200)
+                      .send({ message: "Menu disabled successfully! 🤙" });
+                }
+            }
+        }
+    })
+}
 
 
 module.exports = {
   addMenu,
   getMenus,
-  menuPushItemApi,
+  updateMenu,
+  activateMenu,
 };

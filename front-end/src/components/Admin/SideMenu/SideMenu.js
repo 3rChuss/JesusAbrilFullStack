@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
 
-import { Layout, Menu, Divider } from 'antd';
+import { Layout, Menu } from 'antd';
 import {
   HomeOutlined,
   UserOutlined,
