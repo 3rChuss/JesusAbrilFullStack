@@ -22,7 +22,6 @@ function addMenu(req, res) {
 
 function getMenus(req, res) {
     Menu.find()
-        .sort({'menu.order': "asc" })
         .exec((err, menusStored) => {
             if (err) {
                 res.status(500).send({ message: 'Server Error' })
@@ -36,18 +35,25 @@ function getMenus(req, res) {
         });
 }
 
-// Find the menu selected and update child menu
+// Find the menu selected and update child menu order
 function updateMenu(req, res) {
     let menuData = req.body;
-    const params = req.params;
-
-    let { order } = menuData;
-    console.log(req.body);
+    const menuSelected = req.params.id;
 
     Menu.findByIdAndUpdate(
-        params.id, menuData._id,
         {
-            $set: { "items.$.order": order }
+            _id: menuSelected,
+        },
+        {
+            $set: { "items.$[el].order": menuData.order },
+        },
+        {
+            arrayFilters: [
+                {
+                    "el._id": menuData._id,
+                },
+            ],
+            new: true,
         },
         (err, menuUpdated) => {
             if (err) {
@@ -66,38 +72,50 @@ function updateMenu(req, res) {
         }
     );
 }
-
-
+// Find the menu selected and update child menu active value
 function activateMenu(req, res) {
-
     const { id, active } = req.body;
+    const menuSelected = req.params.id;
 
-    Menu.findByIdAndUpdate(req.params.id, id, { active }, (err, menuUpdated) => {
-        if (err) {
-            res.status(500).send({
-                message:
-                    "Server error finding and updating menu (menu.js)",
-            });
-        } else {
-            if (!menuUpdated) {
-                res
-                    .status(404)
-                    .send({
+    Menu.findByIdAndUpdate(
+        {
+            _id: menuSelected,
+        },
+        {
+            $set: { "items.$[el].active": active }
+        },
+        {
+            arrayFilters: [
+                {
+                    "el._id": id
+                }
+            ],
+            new: true
+        },
+        (err, menuUpdated) => {
+            if (err) {
+                res.status(500).send({
+                    message: "Server error finding and updating menu (menu.js)",
+                });
+            } else {
+                if (!menuUpdated) {
+                    res.status(404).send({
                         message: "Can't find the menu to update (menu.js)",
                     });
-            } else {
-                if (active === true) {
-                    res
-                        .status(200)
-                        .send({ message: "Menu activated successfully! 🤙" });
                 } else {
-                    res
-                      .status(200)
-                      .send({ message: "Menu disabled successfully! 🤙" });
+                    if (active) {
+                        res
+                            .status(200)
+                            .send({ message: "Menu activated successfully! 🤙" });
+                    } else {
+                        res
+                            .status(200)
+                            .send({ message: "Menu disabled successfully! 🤙" });
+                    }
                 }
             }
-        }
-    })
+        });
+
 }
 
 

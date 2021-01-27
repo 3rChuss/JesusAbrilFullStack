@@ -45,13 +45,13 @@ export default function MenuList(props) {
     const { Option } = Select;
 
   useEffect(() => {
-    //load the select menu
+    //Load the selected menu
     const menuSelect = [];
     menus.forEach((menu) => {
       menuSelect.push(menu)
     });
     setSelectMenu(menuSelect);
-    //Load item from selectedMenu
+    //Load item from menuSelected
     const listItems = [];
 
     for (let i = 0; i < menus.length; i++) {
@@ -70,21 +70,24 @@ export default function MenuList(props) {
         })
       }
     }
+    listItems.sort((a, b) => {
+      return a.content.props.item.order - b.content.props.item.order;
+    });
     setListItems(listItems);
+    setReloadMenu(false);
   }, [menus, menuSelected]);
 
   const updateMenu = (menu, data) => {
     const accessToken = getAccessTokenApi();
-    console.log(data);
     updateMenuApi(accessToken, "activate-menu", menu, data).then(
       (result) => {
         notification["success"]({ message: result });
       }
     );
+    setReloadMenu(true);
   };
 
   const onSort = (sortedList, dropEvent) => {
-    console.log(sortedList);
     const accessToken = getAccessTokenApi();
     sortedList.forEach(item => {
       const { _id } = item.content.props.item;
@@ -95,6 +98,7 @@ export default function MenuList(props) {
           notification["success"]({ message: result });
         });
     })
+    setReloadMenu(true);
   };
 
   const addItemModal = () => {
