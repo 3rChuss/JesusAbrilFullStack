@@ -21,6 +21,7 @@ import { getAccessTokenApi } from '../../../../api/auth';
 // ....
 import AddMenuForm from '../AddMenuForm';
 import CreateMenu from '../CreateMenu';
+import EditMenuWebForm from '../EditMenuWebForm';
 
 import Modal from '../../../Modal';
 
@@ -64,6 +65,7 @@ export default function MenuList(props) {
                 item={item}
                 updateMenu={updateMenu}
                 menuSelected={menuSelected}
+                editMenuWebModal={editMenuWebModal}
               />
             ),
           });
@@ -122,6 +124,20 @@ export default function MenuList(props) {
         setReloadMenu={setReloadMenu}
       />
     );
+  };
+
+  const editMenuWebModal = (menu) => {
+    setIsVisibleModal(true);
+    setModalTitle(`Editing menu: ${menu.title}`);
+    setModalContent(
+      <EditMenuWebForm
+        setIsVisibleModal={setIsVisibleModal}
+        setReloadMenu={setReloadMenu}
+        menu={menu}
+        menuSelected={menuSelected}
+      />
+    )
+
   }
 
   return (
@@ -182,7 +198,7 @@ export default function MenuList(props) {
 
 
 function MenuItem(props) {
-  const { item, updateMenu, menuSelected } = props;
+  const { item, updateMenu, menuSelected, editMenuWebModal } = props;
   if (!menuSelected) {
     return null;
   } else {
@@ -198,7 +214,7 @@ function MenuItem(props) {
             unCheckedChildren={<CloseOutlined />}
             title="Visibility"
           />,
-          <Button type="primary">
+          <Button type="primary" onClick={() => editMenuWebModal(item)}>
             <EditOutlined />
           </Button>,
           <Button type="danger">

@@ -30,7 +30,7 @@ export function updateMenuApi(token, action, menuId, data) {
 export function addMenuApi(token, data) {
     const url = `${basePath}/${apiVersion}/add-menu`;
     const params = {
-      method: 'POST',
+      method: "POST",
       headers: {
         "Content-type": "application/json",
         Authorization: token,
