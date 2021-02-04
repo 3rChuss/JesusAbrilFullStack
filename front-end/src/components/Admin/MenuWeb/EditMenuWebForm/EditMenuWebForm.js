@@ -7,8 +7,8 @@ import { getAccessTokenApi } from '../../../../api/auth';
 
 import './EditMenuWebForm.scss';
 
-export default function EditMenuWebForm (props) {
-    const { setIsVisibleModal, setReloadMenuWeb, menu, menuSelected } = props;
+export default function EditMenuWebForm(props) {
+  const { setIsVisibleModal, setReloadMenu, menu, menuSelected } = props;
   const [menuData, setMenuData] = useState(menu);
 
   useEffect(() => {
@@ -22,26 +22,31 @@ export default function EditMenuWebForm (props) {
     } else {
       const accesToken = getAccessTokenApi();
 
-      updateMenuApi(accesToken, 'edit-menu', menuSelected, menuData)
+      updateMenuApi(accesToken, 'edit-item', menuSelected, menuData)
         .then(response => {
-          if (response.status == 404) {
-            notification['error']({
-              message: response
-            })
-          }
-      })
+          notification['success']({
+            message: response
+          });
+          setIsVisibleModal(false);
+          setReloadMenu(true);
+        })
+        .catch(err => {
+          notification['error']({
+            message: err
+          })
+        })
     }
   }
 
-    return (
-      <div className="edit-menu-web-form">
-            <EditForm
-                menuData={menuData}
-                setMenuData={setMenuData}
-                editMenu={editMenu}
-            />
-      </div>
-    );
+  return (
+    <div className="edit-menu-web-form">
+      <EditForm
+        menuData={menuData}
+        setMenuData={setMenuData}
+        editMenu={editMenu}
+      />
+    </div>
+  );
 }
 
 function EditForm(props) {

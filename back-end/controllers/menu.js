@@ -72,7 +72,65 @@ function updateMenu(req, res) {
         }
     );
 }
-// Find the menu selected and update child menu active value
+
+// Find and update the item a the menu selected
+function editItemMenu(req, res) {
+    let menuData = req.body;
+    const menuSelected = req.params.id;
+
+    Menu.findByIdAndUpdate(menuSelected,
+    {
+        $set: { "items.$[el]": menuData }
+    }, {
+        arrayFilters: [{ "el._id": menuData._id }],
+        new: true
+    }, (err, menuUpdated) => {
+        if (err) {
+            res.status(500).send({
+                message: "Server error finding and updating menu (menu.js)",
+            });
+        } else {
+            if (!menuUpdated) {
+                res
+                    .status(404)
+                    .send({ message: "Can't find the menu to update (menu.js)" });
+            } else {
+                res.status(200).send({ message: "Menu updated successfully! 🤙" });
+            }
+        }
+    })
+}
+
+// Add Item to menu selected
+function addItemtoMenu(req, res) {
+    let menuData = req.body;
+    const menuSelected = req.params.id;
+
+    Menu.findByIdAndUpdate(menuSelected,
+        {
+            $push: { "items": menuData }
+        }, {
+        new: true,
+    }, (err, itemAdded) => {
+        if (err) {
+            res.status(500).send({
+                message: "Server error finding and updatind the menu"
+            });
+        } else {
+            if (!itemAdded) {
+                res.status(404).send({
+                    message: "Can't find the menu to add the item"
+                });
+            } else {
+                res.status(200).send({
+                    message: "Item added successfully! 🤙",
+                });
+            }
+        }
+    })
+};
+
+// Find menu selected and update child menu active value
 function activateMenu(req, res) {
     const { id, active } = req.body;
     const menuSelected = req.params.id;
@@ -118,10 +176,46 @@ function activateMenu(req, res) {
 
 }
 
+// Find menu selected and delete item
+function deleteItemMenu(req, res) {
+    const { _id } = req.data;
+    const menuSelected = req.params.id;
+
+    Menu.findByIdAndUpdate(menuSelected,
+        {
+            $pull: {
+                "items": { _id: _id }
+            }
+        }, {
+            safe: true,
+            upsert:true
+    }, (err, itemDeleted) => {
+            if (err) {
+              res.status(500).send({
+                message: "Server error finding and updating menu (menu.js)",
+              });
+            } else {
+                if (!itemDeleted) {
+                    res.status(404).send({
+                        message: "Can't find the menu to update (menu.js)",
+                    });
+                } else {
+                    res
+                        .status(200)
+                        .send({ message: "Menu activated successfully! 🤙" });
+                }
+            }
+        }
+    )
+}
+
 
 module.exports = {
   addMenu,
   getMenus,
   updateMenu,
   activateMenu,
+  addItemtoMenu,
+  editItemMenu,
+  deleteItemMenu,
 };

@@ -27,6 +27,23 @@ export function updateMenuApi(token, action, menuId, data) {
         .catch(err => err);
 }
 
+export function addItemtoMenuApi(token, menuId, data) {
+    const url = `${basePath}/${apiVersion}/add-item-to-menu/${menuId}`;
+
+    const params = {
+        method: 'PUT',
+        headers: {
+            "Content-type": "application/json",
+            Authorization: token
+        },
+        body: JSON.stringify(data)
+    };
+    return fetch(url, params)
+        .then(response => response.json())
+        .then(result => result.message)
+        .catch(err => err);
+}
+
 export function addMenuApi(token, data) {
     const url = `${basePath}/${apiVersion}/add-menu`;
     const params = {
@@ -42,4 +59,22 @@ export function addMenuApi(token, data) {
         .then(response => response.json())
         .then(result => result)
         .catch(err => err.message);
+}
+
+export function deleteItemApi(token, menuId, item) {
+
+    const url = `${basePath}/${apiVersion}/delete-item/${menuId}`;
+    const params = {
+        method: 'PUT',
+        headers: {
+            "Content-type": "application/json",
+            Authorization: token
+        },
+        body: JSON.stringify(item)
+    };
+
+    return fetch(url, params)
+        .then(response => response)
+        .then(result => result.message)
+        .catch(err => err);
 }

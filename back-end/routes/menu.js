@@ -9,5 +9,8 @@ api.post('/add-menu', [md_auth.ensureAuth], MenuController.addMenu);
 api.get("/get-menus", MenuController.getMenus);
 api.put("/update-menu/:id", [md_auth.ensureAuth], MenuController.updateMenu);
 api.put("/activate-menu/:id", [md_auth.ensureAuth], MenuController.activateMenu);
+api.put("/add-item-to-menu/:id", [md_auth.ensureAuth], MenuController.addItemtoMenu);
+api.put("/edit-item/:id", [md_auth.ensureAuth], MenuController.editItemMenu);
+api.put("delete-item/:id", [md_auth.ensureAuth], MenuController.deleteItemMenu);
 
 module.exports = api;

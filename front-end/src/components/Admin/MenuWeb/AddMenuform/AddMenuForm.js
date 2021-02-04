@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Form, Input, Button, Col, Row, notification } from 'antd';
 import { FontSizeOutlined, EditOutlined, TagOutlined } from "@ant-design/icons";
 
-import { updateMenuApi } from "../../../../api/menu";
+import { addItemtoMenuApi } from "../../../../api/menu";
 import { getAccessTokenApi } from '../../../../api/auth';
 
 import './AddMenuForm.scss'
@@ -31,10 +31,10 @@ export default function AddMenuForm(props) {
       data.active = false;
       data.order = 1000;
 
-      updateMenuApi(accessToken, menuSelected, data)
+      addItemtoMenuApi(accessToken, menuSelected, data)
         .then((response) => {
           notification["success"]({
-            message: response.message,
+            message: response,
           });
           setIsVisibleModal(false);
           setReloadMenu(true);

@@ -1,7 +1,9 @@
 const   express = require('express'),
     bodyParser  = require('body-parser'),
             app = express(),
-{ API_VERSION } = require('./config');
+    { API_VERSION } = require
+        ('./config');
+const cors = require('cors');
 
 
 // Load routings
@@ -15,6 +17,11 @@ app.use(bodyParser.json());
 
 // Headers HTTP
 // ....
+
+// CORS
+// ....
+app.use(cors());
+
 app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", '*');
     res.header(

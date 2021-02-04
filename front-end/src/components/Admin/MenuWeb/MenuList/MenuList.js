@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Switch, List, Button, notification, Select} from 'antd';
+import { Switch, List, Button, notification, Select, Modal as ModalAntd } from 'antd';
 import DragSortableList from 'react-drag-sortable';
 import {
   EditOutlined,
@@ -14,7 +14,7 @@ import {
 
 // API
 // ....
-import { updateMenuApi } from '../../.././../api/menu';
+import { updateMenuApi, deleteItemApi } from '../../.././../api/menu';
 import { getAccessTokenApi } from '../../../../api/auth';
 
 // COMPONENTS
@@ -24,7 +24,6 @@ import CreateMenu from '../CreateMenu';
 import EditMenuWebForm from '../EditMenuWebForm';
 
 import Modal from '../../../Modal';
-
 
 import './MenuList.scss';
 
@@ -66,6 +65,7 @@ export default function MenuList(props) {
                 updateMenu={updateMenu}
                 menuSelected={menuSelected}
                 editMenuWebModal={editMenuWebModal}
+                deleteItem={deleteItem}
               />
             ),
           });
@@ -138,6 +138,31 @@ export default function MenuList(props) {
       />
     )
 
+  };
+
+  const deleteItem = (item) => {
+    const accessToken = getAccessTokenApi();
+    ModalAntd.confirm({
+      title: "You're about to delete a menu item",
+      content: `🚨 Are you sure you want to delete de item: ${item.title}?`,
+      okText: "Yes, remove it! ✔",
+      okType: "danger",
+      cancelText: "Cancel ✖",
+      onOk() {
+        deleteItemApi(accessToken, menuSelected, item)
+          .then((response) => {
+            notification["success"]({
+              message: response,
+            });
+            setReloadMenu(true);
+          })
+          .catch((err) => {
+            notification["error"]({
+              message: err,
+            });
+          });
+      },
+    });
   }
 
   return (
@@ -198,7 +223,7 @@ export default function MenuList(props) {
 
 
 function MenuItem(props) {
-  const { item, updateMenu, menuSelected, editMenuWebModal } = props;
+  const { item, updateMenu, menuSelected, editMenuWebModal, deleteItem } = props;
   if (!menuSelected) {
     return null;
   } else {
@@ -217,7 +242,7 @@ function MenuItem(props) {
           <Button type="primary" onClick={() => editMenuWebModal(item)}>
             <EditOutlined />
           </Button>,
-          <Button type="danger">
+          <Button type="danger" onClick={() => deleteItem(item)}>
             <DeleteOutlined />
           </Button>,
         ]}
