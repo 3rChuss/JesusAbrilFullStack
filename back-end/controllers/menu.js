@@ -178,7 +178,7 @@ function activateMenu(req, res) {
 
 // Find menu selected and delete item
 function deleteItemMenu(req, res) {
-    const { _id } = req.data;
+    const { _id } = req.body;
     const menuSelected = req.params.id;
 
     Menu.findByIdAndUpdate(menuSelected,
@@ -202,20 +202,44 @@ function deleteItemMenu(req, res) {
                 } else {
                     res
                         .status(200)
-                        .send({ message: "Menu activated successfully! 🤙" });
+                        .send({ message: "Menu deleted successfully! 🤙" });
                 }
             }
         }
     )
 }
 
+// Find the parent menu and delete all data
+function deleteMenu(req, res) {
+    const { _id } = req.params;
+
+    Menu.findByIdAndRemove(_id, (err, menuDeleted) => {
+        if (err) {
+            res.status(500).send({
+                message: "Error: Menu not found!"
+            })
+        } else {
+            if (!menuDeleted) {
+                res.status(404).send({
+                  message: "Can't delete the menu selected. 😒",
+                });
+            } else {
+                res.status(200).send({
+                    message: "Menu deleted correctly. 👍"
+                })
+            }
+        }
+    })
+}
+
 
 module.exports = {
-  addMenu,
-  getMenus,
-  updateMenu,
-  activateMenu,
-  addItemtoMenu,
-  editItemMenu,
-  deleteItemMenu,
+    addMenu,
+    getMenus,
+    updateMenu,
+    activateMenu,
+    addItemtoMenu,
+    editItemMenu,
+    deleteItemMenu,
+    deleteMenu,
 };

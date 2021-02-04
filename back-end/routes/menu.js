@@ -11,6 +11,7 @@ api.put("/update-menu/:id", [md_auth.ensureAuth], MenuController.updateMenu);
 api.put("/activate-menu/:id", [md_auth.ensureAuth], MenuController.activateMenu);
 api.put("/add-item-to-menu/:id", [md_auth.ensureAuth], MenuController.addItemtoMenu);
 api.put("/edit-item/:id", [md_auth.ensureAuth], MenuController.editItemMenu);
-api.put("delete-item/:id", [md_auth.ensureAuth], MenuController.deleteItemMenu);
+api.put("/delete-item/:id", [md_auth.ensureAuth], MenuController.deleteItemMenu);
+api.delete("delete-menu/:id", [md_auth.ensureAuth], MenuController.deleteMenu);
 
 module.exports = api;
