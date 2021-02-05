@@ -17,6 +17,11 @@
                 margin-left: 5px;
             }
         }
+        &-buttons {
+            .ant-btn:first-child {
+                margin-right: 0.2rem;
+            }
+        }
     }
 
     &__items {

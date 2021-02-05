@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Switch, List, Button, notification, Select, Modal as ModalAntd } from 'antd';
+import { Switch, List, Button, notification, Select, Modal as ModalAntd, Empty } from 'antd';
 import DragSortableList from 'react-drag-sortable';
 import {
   EditOutlined,
@@ -14,7 +14,7 @@ import {
 
 // API
 // ....
-import { updateMenuApi, deleteItemApi } from '../../.././../api/menu';
+import { updateMenuApi, deleteItemApi, deleteMenuApi } from '../../.././../api/menu';
 import { getAccessTokenApi } from '../../../../api/auth';
 
 // COMPONENTS
@@ -165,12 +165,42 @@ export default function MenuList(props) {
     });
   }
 
+  const eraseMenu = () => {
+    const token = getAccessTokenApi();
+    
+    ModalAntd.confirm({
+      title: "You're about to erase the menu and its items",
+      content: `🚨 Are you sure you want to delete de menu: ${menuSelected}`,
+      okText: "Confirm ✔",
+      okType: "danger",
+      cancelText: "Cancel ✖",
+      onOk() {
+        deleteMenuApi(token, menuSelected)
+          .then(response => {
+            notification['success']({
+              message: response
+            })
+            setReloadMenu(true);
+            setMenuSelected(null);
+            setSelectMenu(new Array()); // actualziar select cuando eliminamos un menu
+            document.getElementById("#selectMenu").setAttribute('placeholder', 'Select Menu');
+          })
+          .catch(err => {
+            notification['error']({
+              message: err
+            });
+          });
+      }
+    });
+  }
+
   return (
     <div className="menu-list">
       <div className="menu-list__header">
         <div className="menu-list__header-items">
           <span className="text">Select menu</span>
           <Select
+            id="selectMenu"
             showSearch
             placeholder="Select menu"
             onChange={(e) => setMenuSelected(e)}
@@ -191,7 +221,10 @@ export default function MenuList(props) {
           </span>
         </div>
         {menuSelected ? (
-          <div className="menu-list__header-items">
+          <div className="menu-list__header-buttons">
+            <Button type="danger" onClick={eraseMenu}>
+              <p>Erase Menu</p>
+            </Button>
             <Button type="primary" onClick={addItemModal}>
               <p>Add New Item to Menu</p>
             </Button>
@@ -208,7 +241,7 @@ export default function MenuList(props) {
           />
         </div>
       ) : (
-        <div className="empty">No menu selected yet</div>
+        <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
       )}
       <Modal
         title={modalTitle}

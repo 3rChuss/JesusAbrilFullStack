@@ -3,7 +3,7 @@ const   express = require('express'),
             app = express(),
     { API_VERSION } = require
         ('./config');
-const cors = require('cors');
+var cors = require('cors');
 
 
 // Load routings
@@ -12,15 +12,14 @@ const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/user');
 const menuRoutes = require('./routes/menu');
 
+// CORS
+// ....
+app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // Headers HTTP
 // ....
-
-// CORS
-// ....
-app.use(cors());
 
 app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", '*');

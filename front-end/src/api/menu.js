@@ -79,19 +79,18 @@ export function deleteItemApi(token, menuId, item) {
         .catch(err => err.message);
 }
 
-export function deleteMenu(token, menuId) {
-        const url = `${basePath}/${apiVersion}/delete-menu/${menuId}`;
-        const params = {
-          method: "DELETE",
-          headers: {
+export function deleteMenuApi(token, menuId) {
+    const url = `${basePath}/${apiVersion}/delete-menu/${menuId}`;
+    const params = {
+        method: "DELETE",
+        headers: {
             "Content-type": "application/json",
             Authorization: token,
-          },
-          body: JSON.stringify(menuId),
-        };
+        }
+    };
 
-        return fetch(url, params)
-          .then((response) => response.json())
-          .then((result) => result.message)
-          .catch((err) => err.message);
+    return fetch(url, params)
+        .then((response) => response.json())
+        .then((result) => result.message)
+        .catch((err) => err.message);
 }

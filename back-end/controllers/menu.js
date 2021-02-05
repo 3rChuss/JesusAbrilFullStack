@@ -183,7 +183,8 @@ function deleteItemMenu(req, res) {
 
     Menu.findByIdAndUpdate(menuSelected,
         {
-            $pull: {
+            $pull:
+            {
                 "items": { _id: _id }
             }
         }, {
@@ -211,9 +212,7 @@ function deleteItemMenu(req, res) {
 
 // Find the parent menu and delete all data
 function deleteMenu(req, res) {
-    const { _id } = req.params;
-
-    Menu.findByIdAndRemove(_id, (err, menuDeleted) => {
+    Menu.findByIdAndRemove(req.params.id, (err, menuDeleted) => {
         if (err) {
             res.status(500).send({
                 message: "Error: Menu not found!"
