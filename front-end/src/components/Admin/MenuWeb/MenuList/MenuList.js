@@ -168,9 +168,14 @@ export default function MenuList(props) {
   const eraseMenu = () => {
     const token = getAccessTokenApi();
     
+    const menu = 
+      selectMenu.find(menu => {
+        if (menu._id === menuSelected) return menu.title
+      });
+
     ModalAntd.confirm({
       title: "You're about to erase the menu and its items",
-      content: `🚨 Are you sure you want to delete de menu: ${menuSelected}`,
+      content: `🚨 Are you sure you want to delete de menu: ${menu.title}?`,
       okText: "Confirm ✔",
       okType: "danger",
       cancelText: "Cancel ✖",
@@ -180,10 +185,8 @@ export default function MenuList(props) {
             notification['success']({
               message: response
             })
-            setReloadMenu(true);
             setMenuSelected(null);
-            setSelectMenu(new Array()); // actualziar select cuando eliminamos un menu
-            document.getElementById("#selectMenu").setAttribute('placeholder', 'Select Menu');
+            setReloadMenu(true);
           })
           .catch(err => {
             notification['error']({

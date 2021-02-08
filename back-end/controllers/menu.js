@@ -220,7 +220,7 @@ function deleteMenu(req, res) {
         } else {
             if (!menuDeleted) {
                 res.status(404).send({
-                  message: "Can't delete the menu selected. 😒",
+                  message: "Menu not found, menu selected not found. 😒",
                 });
             } else {
                 res.status(200).send({
